@@ -3,6 +3,8 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     concat: {
+      bar: {src: ['./public/client/*.js'],
+      dest: './public/dist/deployment.js'}
     },
 
     mochaTest: {
@@ -21,11 +23,14 @@ module.exports = function(grunt) {
     },
 
     uglify: {
+      bar: {src: './public/dist/deployment.js',
+            dest: './public/dist/deployment.min.js'}
     },
 
     eslint: {
       target: [
         // Add list of files to lint here
+        './public/client/*.js'
       ]
     },
 
@@ -51,8 +56,25 @@ module.exports = function(grunt) {
 
     shell: {
       prodServer: {
+        gitadd: {
+          command: 'git add .'
+        },
+        gitcommit: {
+          command: 'git commit -m "auto commit to server due to production change'
+        },
+        gitpush: {
+          command: 'git push live master'
+        }
       }
     },
+
+    // gitpush: {
+    //   live: {
+    //     options: {
+    //       remote: live
+    //     }
+    //   }
+    // }
   });
 
   grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -63,6 +85,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-nodemon');
+  // grunt.loadNpmTasks('grunt-git');
 
   grunt.registerTask('server-dev', function (target) {
     grunt.task.run([ 'nodemon', 'watch' ]);
