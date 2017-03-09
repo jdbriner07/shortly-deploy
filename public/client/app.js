@@ -1,3 +1,4 @@
+console.log('hello droplet');
 window.Shortly = Backbone.View.extend({
   template: Templates.layout,
 
