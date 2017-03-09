@@ -56,25 +56,12 @@ module.exports = function(grunt) {
 
     shell: {
       prodServer: {
-        gitadd: {
-          command: 'git add .'
-        },
-        gitcommit: {
-          command: 'git commit -m "auto commit to server due to production change'
-        },
-        gitpush: {
-          command: 'git push live master'
-        }
+        command: ['git add .',
+          'git commit -m "auto commit to server due to production change"',
+          'git push live master'].join(' && ')
       }
-    },
+    }
 
-    // gitpush: {
-    //   live: {
-    //     options: {
-    //       remote: live
-    //     }
-    //   }
-    // }
   });
 
   grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -85,7 +72,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-nodemon');
-  // grunt.loadNpmTasks('grunt-git');
 
   grunt.registerTask('server-dev', function (target) {
     grunt.task.run([ 'nodemon', 'watch' ]);
