@@ -4,7 +4,7 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     concat: {
       bar: {src: ['./public/client/*.js'],
-      dest: './public/dist/deployment.js'}
+        dest: './public/dist/deployment.js'},
     },
 
     mochaTest: {
@@ -24,17 +24,28 @@ module.exports = function(grunt) {
 
     uglify: {
       bar: {src: './public/dist/deployment.js',
-            dest: './public/dist/deployment.min.js'}
+            dest: './public/dist/deployment.min.js'},
+      jquery: {src: './public/lib/jquery.js',
+            dest: './public/dist/jquery.min.js'},
+      backbone: {src: './public/lib/backbone.js',
+            dest: './public/dist/backbone.min.js'},
+      underscore: {src: './public/lib/underscore.js',
+            dest: './public/dist/underscore.min.js'},
+      handlebars: {src: './public/lib/handlebars.js',
+            dest: './public/dist/handlebars.min.js'},
     },
 
     eslint: {
       target: [
         // Add list of files to lint here
+        './public/dist/*.js',
         './public/client/*.js'
       ]
     },
 
     cssmin: {
+      foo: {src: './public/style.css',
+            dest: './public/dist/style.min.css'}
     },
 
     watch: {
@@ -96,9 +107,13 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('deploy', [
-    // add your deploy tasks here
-  ]);
-
-
+  grunt.registerTask('deploy', function(n) {
+    grunt.task.run([
+      // add your deploy tasks here
+      'eslint', 'concat', 'uglify'
+    ]);
+    if (grunt.option('prod')) {
+      grunt.task.run(['shell']);      
+    }
+  });
 };
