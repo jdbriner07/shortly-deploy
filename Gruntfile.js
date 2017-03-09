@@ -110,7 +110,7 @@ module.exports = function(grunt) {
   grunt.registerTask('deploy', function(n) {
     grunt.task.run([
       // add your deploy tasks here
-      'eslint', 'concat', 'uglify'
+      'eslint', 'concat', 'uglify', 'cssmin'
     ]);
     if (grunt.option('prod')) {
       grunt.task.run(['shell']);      
