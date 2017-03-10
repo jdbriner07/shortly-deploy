@@ -19,7 +19,11 @@ var User = db.Model.extend({
       .then(function(hash) {
         this.set('password', hash);
       });
+  },
+  remove: function() {
+    return;
   }
+
 });
 
 module.exports = User;
